@@ -20,7 +20,6 @@
 # import Python modules
 import sys 
 import math
-import numpy as np
 
 # "constants"
 R_E_KM = 6378.137
@@ -90,24 +89,12 @@ while (math.isnan(prev_lat_rad) or abs(lat_rad-prev_lat_rad)>10e-7) and count<5:
 # calculate hae
 hae_km = r_lon_km/math.cos(lat_rad)-c_E
 
-# Rotation Matrix
-R_z = np.array([
-    [np.sin(lat_rad), 0, -np.cos(lat_rad)],
-    [0, 1, 0],
-    [np.cos(lat_rad), 0, np.sin(lat_rad)]])
+# Rotation
+sez_vector = [-ECEF_z_km*math.cos(lat_rad) + ECEF_x_km*math.cos(lon_rad)*math.sin(lat_rad) + ECEF_y_km*math.sin(lat_rad)*math.sin(lon_rad), ECEF_y_km*math.cos(lon_rad) - ECEF_x_km*math.sin(lon_rad), ECEF_x_km*math.cos(lat_rad)*math.cos(lon_rad) + ECEF_z_km*math.sin(lat_rad) + ECEF_y_km*math.cos(lat_rad)*math.sin(lon_rad)]
 
-R_y = np.array([
-    [np.cos(lon_rad), np.sin(lon_rad), 0],
-    [-np.sin(lon_rad), np.cos(lon_rad), 0],
-    [0, 0, 1]])
-
-ECEF_vec = np.array([ECEF_x_km, ECEF_y_km, ECEF_z_km])
-
-sez_matrix = np.dot(np.dot(R_z,R_y),ECEF_vec)
-
-s_km = sez_matrix[0]
-e_km = sez_matrix[1]
-z_km = sez_matrix[2]
+s_km = sez_vector[0]
+e_km = sez_vector[1]
+z_km = sez_vector[2]
 
 print(s_km)
 print(e_km)
