@@ -85,9 +85,6 @@ while (math.isnan(prev_lat_rad) or abs(lat_rad-prev_lat_rad)>10e-7) and count<5:
   prev_lat_rad = lat_rad
   lat_rad = math.atan((r_z_km+c_E*(E_E**2)*math.sin(lat_rad))/r_lon_km)
   count = count+1
-  
-# calculate hae
-hae_km = r_lon_km/math.cos(lat_rad)-c_E
 
 # Rotation
 sez_vector = [-ECEF_z_km*math.cos(lat_rad) + ECEF_x_km*math.cos(lon_rad)*math.sin(lat_rad) + ECEF_y_km*math.sin(lat_rad)*math.sin(lon_rad), ECEF_y_km*math.cos(lon_rad) - ECEF_x_km*math.sin(lon_rad), ECEF_x_km*math.cos(lat_rad)*math.cos(lon_rad) + ECEF_z_km*math.sin(lat_rad) + ECEF_y_km*math.cos(lat_rad)*math.sin(lon_rad)]
